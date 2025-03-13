@@ -1,0 +1,1 @@
+# fmi-java-inventory-project

@@ -1,10 +1,18 @@
 package model;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class InventoryItem {
     private static final int MAX_NAME_LENGTH = 100;
     private static final int MAX_DESCRIPTION_LENGTH = 255;
+    private static final String[] ALLOWED_UNITS = {
+            "pcs",
+            "kg",
+            "milliliters"
+    };
 
     private static int NEXT_ID = 0;
 
@@ -30,12 +38,18 @@ public class InventoryItem {
         }
     }
 
+    private static void validateUnitOfMeasurement(String unitOfMeasurement) {
+        if (Arrays.stream(ALLOWED_UNITS).noneMatch(allowedUnit -> allowedUnit.equals(unitOfMeasurement))) {
+            throw new IllegalArgumentException(String.format("Unit %s is not allowed", unitOfMeasurement));
+        }
+    }
+
     private int id;
     private String name;
     private String description;
     private int quantity;
     private String serialNumber;
-    private UnitOfMeasurement unitOfMeasurement;
+    private String unitOfMeasurement;
     private ItemCategory category;
     private boolean borrowable;
     private Instant addedDate;
@@ -44,12 +58,15 @@ public class InventoryItem {
                          String description,
                          int quantity,
                          String serialNumber,
-                         UnitOfMeasurement unitOfMeasurement,
+                         String unitOfMeasurement,
                          ItemCategory itemCategory,
                          boolean borrowable) {
+        unitOfMeasurement = unitOfMeasurement.toLowerCase();
+
         validateName(name);
         validateDescription(description);
         validateQuantity(quantity);
+        validateUnitOfMeasurement(unitOfMeasurement);
 
         id = NEXT_ID++;
         this.name = name;
@@ -82,7 +99,7 @@ public class InventoryItem {
         return serialNumber;
     }
 
-    public UnitOfMeasurement getUnitOfMeasurement() {
+    public String getUnitOfMeasurement() {
         return unitOfMeasurement;
     }
 

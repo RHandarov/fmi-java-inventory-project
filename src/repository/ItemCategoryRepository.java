@@ -42,6 +42,13 @@ public class ItemCategoryRepository {
         return Optional.of(ITEM_CATEGORY_TABLE.get(id));
     }
 
+    public static Optional<ItemCategory> getItemCategoryByName(String name) {
+        return ITEM_CATEGORY_TABLE.values()
+                .stream()
+                .filter(category -> category.getName().equals(name))
+                .findFirst();
+    }
+
     public static List<ItemCategory> getAllItemCategories() {
         return ITEM_CATEGORY_TABLE.values().stream().toList();
     }

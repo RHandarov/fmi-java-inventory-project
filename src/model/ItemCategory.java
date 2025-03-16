@@ -1,7 +1,7 @@
 package model;
 
 public class ItemCategory {
-    private static int NEXT_ID = 0;
+    private static int nextId = 0;
 
     private int id;
     private String name;
@@ -12,7 +12,7 @@ public class ItemCategory {
     }
 
     public ItemCategory(String name, String description) {
-        id = NEXT_ID++;
+        id = nextId++;
         this.name = name;
         this.description = description;
     }

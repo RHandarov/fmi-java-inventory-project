@@ -3,6 +3,7 @@ package repository;
 import model.InventoryItem;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,10 +16,11 @@ public class InventoryItemRepository {
         }
 
         if (ITEM_TABLE.containsKey(item.getId())) {
-            throw new IllegalArgumentException("This item already exists");
+            throw new IllegalArgumentException(
+                    String.format("Item with id %d already exists", item.getId())
+            );
         }
 
-        // TODO: Implement copy constructor
         ITEM_TABLE.put(item.getId(), item);
     }
 
@@ -33,9 +35,13 @@ public class InventoryItemRepository {
 
     public static Optional<InventoryItem> getItemById(Integer id) {
         if (!ITEM_TABLE.containsKey(id)) {
-            return null;
+            return Optional.empty();
         }
 
         return Optional.of(ITEM_TABLE.get(id));
+    }
+
+    public static List<InventoryItem> getAllItems() {
+        return ITEM_TABLE.values().stream().toList();
     }
 }

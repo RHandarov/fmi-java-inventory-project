@@ -3,7 +3,7 @@ package model;
 import java.time.Instant;
 
 public class Transaction {
-    private static int NEXT_ID = 0;
+    private static int nextId = 0;
 
     private static void validateQuantityUsed(int quantityUsed) {
         if (quantityUsed <= 0) {
@@ -24,6 +24,7 @@ public class Transaction {
     private int quantityUsed;
     private Instant borrowDate;
     private Instant returnDate;
+    private boolean returned;
 
     public Transaction(int memberId,
                        int itemId,
@@ -34,13 +35,14 @@ public class Transaction {
         validateQuantityUsed(quantityUsed);
         validateDates(borrowDate, returnDate);
 
-        id = NEXT_ID++;
+        id = nextId++;
         this.memberId = memberId;
         this.itemId = itemId;
         this.type = type;
         this.quantityUsed = quantityUsed;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
+        this.returned = false;
     }
 
     public int getId() {
@@ -69,5 +71,13 @@ public class Transaction {
 
     public Instant getReturnDate() {
         return returnDate;
+    }
+
+    public boolean isReturned() {
+        return returned;
+    }
+
+    public void setReturned(boolean returned) {
+        this.returned = returned;
     }
 }

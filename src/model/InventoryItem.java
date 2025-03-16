@@ -1,9 +1,7 @@
 package model;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class InventoryItem {
     private static final int MAX_NAME_LENGTH = 100;
@@ -14,7 +12,7 @@ public class InventoryItem {
             "milliliters"
     };
 
-    private static int NEXT_ID = 0;
+    private static int nextId = 0;
 
     private static void validateName(String name) {
         if (name == null) {
@@ -27,7 +25,7 @@ public class InventoryItem {
     }
 
     private static void validateDescription(String description) {
-        if (description != null && description.length() > 255) {
+        if (description != null && description.length() > MAX_DESCRIPTION_LENGTH) {
             throw new IllegalArgumentException("Description length should not exceed " + MAX_NAME_LENGTH);
         }
     }
@@ -68,7 +66,7 @@ public class InventoryItem {
         validateQuantity(quantity);
         validateUnitOfMeasurement(unitOfMeasurement);
 
-        id = NEXT_ID++;
+        id = nextId++;
         this.name = name;
         this.description = description;
         this.quantity = quantity;

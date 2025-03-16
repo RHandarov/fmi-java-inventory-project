@@ -1,7 +1,7 @@
 package model;
 
 public class ClubMember {
-    private static int NEXT_ID = 0;
+    private static int nextId = 0;
 
     private int id;
     private String firstName;
@@ -11,7 +11,7 @@ public class ClubMember {
     public ClubMember(String firstName,
                       String lastName,
                       String email) {
-        id = NEXT_ID++;
+        id = nextId++;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

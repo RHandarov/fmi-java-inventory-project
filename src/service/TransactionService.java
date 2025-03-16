@@ -11,4 +11,5 @@ public interface TransactionService {
     List<Transaction> getAllTransactions();
     boolean returnItem(Integer transactionId);
     List<Transaction> getOverdueTransactions();
+    boolean updateTransaction(Transaction updatedTransaction);
 }

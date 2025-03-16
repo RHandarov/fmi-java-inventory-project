@@ -24,7 +24,6 @@ public class InventoryServiceImpl implements InventoryService {
                     ItemCategoryRepository.addItemCategory(newCategory);
                     return newCategory;
                 });
-
         InventoryItemRepository.addItem(new InventoryItem(name,
                 description,
                 quantity,

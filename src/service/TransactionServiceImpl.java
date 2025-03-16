@@ -19,7 +19,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void borrowItem(ClubMember member, InventoryItem item, int days) {
+    public Integer borrowItem(ClubMember member, InventoryItem item, int days) {
         if (item.getQuantity() == 0) {
             throw new IllegalArgumentException("Item quantity is 0");
         }
@@ -38,6 +38,8 @@ public class TransactionServiceImpl implements TransactionService {
         TransactionRepository.addTransaction(newTransaction);
         item.setQuantity(item.getQuantity() - 1);
         inventoryService.updateItem(item);
+
+        return newTransaction.getId();
     }
 
     @Override

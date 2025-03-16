@@ -4,6 +4,7 @@ import model.InventoryItem;
 import service.InventoryService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class InventoryController {
     private final InventoryService inventoryService;
@@ -32,5 +33,14 @@ public class InventoryController {
         }
 
         System.out.println("Item has been added successfully");
+    }
+
+    public InventoryItem getItemById(Integer itemId) {
+        Optional<InventoryItem> itemOptional = inventoryService.getItemById(itemId);
+        if (itemOptional.isEmpty()) {
+            throw new IllegalArgumentException("Item with id " + itemId + " doesn't exists");
+        }
+
+        return itemOptional.get();
     }
 }

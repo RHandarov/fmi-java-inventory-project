@@ -28,7 +28,7 @@ public class InventoryServiceImpl implements InventoryService {
                 description,
                 quantity,
                 "",
-                category,
+                unit,
                 itemCategory,
                 borrowable));
     }

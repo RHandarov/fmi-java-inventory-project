@@ -1,4 +1,4 @@
-package model;
+package fmi.java.inventory_project.model;
 
 public class ClubMember {
     private static int nextId = 0;

@@ -1,17 +1,21 @@
-package controller;
+package fmi.java.inventory_project.controller;
 
-import model.ClubMember;
-import model.InventoryItem;
-import model.Transaction;
-import service.InventoryService;
-import service.TransactionService;
+import fmi.java.inventory_project.model.ClubMember;
+import fmi.java.inventory_project.model.InventoryItem;
+import fmi.java.inventory_project.model.Transaction;
+import fmi.java.inventory_project.service.InventoryService;
+import fmi.java.inventory_project.service.TransactionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+@Controller
 public class TransactionController {
     private final TransactionService transactionService;
     private final InventoryService inventoryService;
 
+    @Autowired
     public TransactionController(TransactionService transactionService,
                                  InventoryService inventoryService) {
         this.transactionService = transactionService;

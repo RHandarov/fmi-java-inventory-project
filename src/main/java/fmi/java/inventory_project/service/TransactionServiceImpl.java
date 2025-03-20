@@ -1,16 +1,18 @@
-package service;
+package fmi.java.inventory_project.service;
 
-import model.ClubMember;
-import model.InventoryItem;
-import model.Transaction;
-import model.TransactionType;
-import repository.TransactionRepository;
+import fmi.java.inventory_project.model.ClubMember;
+import fmi.java.inventory_project.model.InventoryItem;
+import fmi.java.inventory_project.model.Transaction;
+import fmi.java.inventory_project.model.TransactionType;
+import fmi.java.inventory_project.repository.TransactionRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class TransactionServiceImpl implements TransactionService {
     private InventoryService inventoryService;
 

@@ -1,12 +1,14 @@
-package repository;
+package fmi.java.inventory_project.repository;
 
-import model.Transaction;
+import fmi.java.inventory_project.model.Transaction;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Repository
 public class TransactionRepository {
     private static Map<Integer, Transaction> TRANSACTION_TABLE = new HashMap<>();
 

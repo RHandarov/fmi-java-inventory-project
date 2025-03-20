@@ -1,4 +1,4 @@
-package model;
+package fmi.java.inventory_project.model;
 
 import java.time.Instant;
 import java.util.Arrays;

@@ -1,14 +1,16 @@
-package service;
+package fmi.java.inventory_project.service;
 
-import model.InventoryItem;
-import model.ItemCategory;
-import repository.InventoryItemRepository;
-import repository.ItemCategoryRepository;
+import fmi.java.inventory_project.model.InventoryItem;
+import fmi.java.inventory_project.model.ItemCategory;
+import fmi.java.inventory_project.repository.InventoryItemRepository;
+import fmi.java.inventory_project.repository.ItemCategoryRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class InventoryServiceImpl implements InventoryService {
     @Override
     public List<InventoryItem> getAllItems() {

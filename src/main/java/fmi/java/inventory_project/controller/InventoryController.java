@@ -1,14 +1,18 @@
-package controller;
+package fmi.java.inventory_project.controller;
 
-import model.InventoryItem;
-import service.InventoryService;
+import fmi.java.inventory_project.model.InventoryItem;
+import fmi.java.inventory_project.service.InventoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.Optional;
 
+@Controller
 public class InventoryController {
     private final InventoryService inventoryService;
 
+    @Autowired
     public InventoryController(InventoryService inventoryService) {
         this.inventoryService = inventoryService;
     }

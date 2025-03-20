@@ -1,12 +1,14 @@
-package repository;
+package fmi.java.inventory_project.repository;
 
-import model.InventoryItem;
+import fmi.java.inventory_project.model.InventoryItem;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Repository
 public class InventoryItemRepository {
     private static final Map<Integer, InventoryItem> ITEM_TABLE = new HashMap<>();
 

@@ -122,4 +122,9 @@ public class InventoryItem {
         validateQuantity(quantity);
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

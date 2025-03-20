@@ -24,8 +24,12 @@ public class InventoryController {
 
     public void showLowStockItems() {
         final int LOW_STOCK_THRESHOLD = 10;
-        List<InventoryItem> items = inventoryService.getLowStockItems(LOW_STOCK_THRESHOLD);
+        List<InventoryItem> items = getLowStockItems(LOW_STOCK_THRESHOLD);
         items.forEach(item -> System.out.println(item.getName()));
+    }
+
+    public List<InventoryItem> getLowStockItems(int threshold) {
+        return inventoryService.getLowStockItems(threshold);
     }
 
     public void addItem(String name, String description, int quantity, String unit, String category, boolean borrowable) {

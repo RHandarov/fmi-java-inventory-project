@@ -13,5 +13,5 @@ public interface InventoryService {
     Optional<InventoryItem> getItemById(Integer id);
     boolean deleteItemById(Integer id);
     List<InventoryItem> getLowStockItems(int threshold);
-    boolean updateItem(InventoryItem updatedItem);
+    boolean updateItem(Integer id, String name, String description, int quantity, String unit, String category, boolean borrowable);
 }

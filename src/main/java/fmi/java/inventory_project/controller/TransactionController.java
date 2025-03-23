@@ -22,12 +22,12 @@ public class TransactionController {
         this.inventoryService = inventoryService;
     }
 
-    public void showAllTransactions() {
+    public void displayAllTransactions() {
         List<Transaction> transactions = transactionService.getAllTransactions();
         transactions.forEach(transaction -> System.out.println(transaction.getId()));
     }
 
-    public void showAllOverdueTransactions() {
+    public void displayAllOverdueTransactions() {
         List<Transaction> transactions = transactionService.getOverdueTransactions();
         transactions.forEach(transaction -> System.out.println(transaction.getId()));
     }
@@ -48,7 +48,7 @@ public class TransactionController {
         boolean success = transactionService.returnItem(transactionId);
         String message;
         if (success) {
-            message =  "Item has been returned successfully";
+            message =  "Item returned successfully";
         } else {
             message = "Item failed to return";
         }

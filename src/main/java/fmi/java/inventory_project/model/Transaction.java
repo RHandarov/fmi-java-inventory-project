@@ -3,13 +3,9 @@ package fmi.java.inventory_project.model;
 import java.time.Instant;
 
 public class Transaction {
-    private static int nextId = 0;
+    private static final int DAY_IN_SECONDS = 86400;
 
-    private static void validateQuantityUsed(int quantityUsed) {
-        if (quantityUsed <= 0) {
-            throw new IllegalArgumentException("Used quantity should be positive");
-        }
-    }
+    private static int nextId = 0;
 
     private static void validateDates(Instant borrowDate, Instant returnDate) {
         if (returnDate.isBefore(borrowDate)) {
@@ -18,28 +14,36 @@ public class Transaction {
     }
 
     private int id;
-    private int memberId;
-    private int itemId;
+    private ClubMember clubMember;
+    private InventoryItem inventoryItem;
     private TransactionType type;
-    private int quantityUsed;
     private Instant borrowDate;
     private Instant returnDate;
     private boolean returned;
 
-    public Transaction(int memberId,
-                       int itemId,
+    public Transaction(ClubMember member,
+                       InventoryItem item,
                        TransactionType type,
-                       int quantityUsed,
+                       Instant borrowDate,
+                       int days) {
+        this(member,
+                item,
+                type,
+                borrowDate,
+                borrowDate.plusSeconds((long) days * DAY_IN_SECONDS));
+    }
+
+    public Transaction(ClubMember member,
+                       InventoryItem item,
+                       TransactionType type,
                        Instant borrowDate,
                        Instant returnDate) {
-        validateQuantityUsed(quantityUsed);
         validateDates(borrowDate, returnDate);
 
         id = nextId++;
-        this.memberId = memberId;
-        this.itemId = itemId;
+        this.clubMember = member;
+        this.inventoryItem = item;
         this.type = type;
-        this.quantityUsed = quantityUsed;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
         this.returned = false;
@@ -49,20 +53,16 @@ public class Transaction {
         return id;
     }
 
-    public int getMemberId() {
-        return memberId;
+    public ClubMember getClubMember() {
+        return clubMember;
     }
 
-    public int getItemId() {
-        return itemId;
+    public InventoryItem getInventoryItem() {
+        return inventoryItem;
     }
 
     public TransactionType getType() {
         return type;
-    }
-
-    public int getQuantityUsed() {
-        return quantityUsed;
     }
 
     public Instant getBorrowDate() {
@@ -80,4 +80,11 @@ public class Transaction {
     public void setReturned(boolean returned) {
         this.returned = returned;
     }
+
+    public void setReturnDate(Instant returnDate) {
+        validateDates(borrowDate, returnDate);
+        this.returnDate = returnDate;
+    }
+
+
 }

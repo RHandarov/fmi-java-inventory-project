@@ -17,15 +17,13 @@ public class InventoryController {
         this.inventoryService = inventoryService;
     }
 
-    public void showAllItems() {
+    public void displayAllItems() {
         List<InventoryItem> items = inventoryService.getAllItems();
-        items.forEach(item -> System.out.println(item.getName()));
-    }
-
-    public void showLowStockItems() {
-        final int LOW_STOCK_THRESHOLD = 10;
-        List<InventoryItem> items = getLowStockItems(LOW_STOCK_THRESHOLD);
-        items.forEach(item -> System.out.println(item.getName()));
+        if (items.isEmpty()) {
+            System.out.println("No inventory items available.");
+        } else {
+            items.forEach(item -> System.out.println("Item: " + item.getName() + ", Quantity: " + item.getQuantity()));
+        }
     }
 
     public List<InventoryItem> getLowStockItems(int threshold) {
@@ -41,6 +39,14 @@ public class InventoryController {
         }
 
         System.out.println("Item has been added successfully");
+    }
+
+    public void updateItem(Integer id, String name, String description, int quantity, String unit, String category, boolean borrowable) {
+        if (inventoryService.updateItem(id, name, description, quantity, unit, category, borrowable)) {
+            System.out.println("Item updated successfully.");
+        } else {
+            System.out.println("Update failed. Item not found.");
+        }
     }
 
     public InventoryItem getItemById(Integer itemId) {

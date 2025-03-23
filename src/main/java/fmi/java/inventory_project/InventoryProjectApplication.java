@@ -41,15 +41,15 @@ public class InventoryProjectApplication implements CommandLineRunner {
 
 		// Display All Items
 		System.out.println("📌 Displaying all inventory items:");
-		inventoryController.showAllItems();
+		inventoryController.displayAllItems();
 		System.out.println("---------------------------------------");
 
-//		System.out.println("🔄 Updating 'RC Car' quantity to 8...");
-//		inventoryController.updateItem(1, "RC Car", "High-speed remote control car", 8, "Vehicles", true);
+		System.out.println("🔄 Updating 'RC Car' quantity to 8...");
+		inventoryController.updateItem(0, "RC Car", "High-speed remote control car", 8, "pcs",  "Vehicles", true);
 
 		System.out.println("---------------------------------------");
 		System.out.println("📌 Displaying updated inventory items:");
-		inventoryController.showAllItems();
+		inventoryController.displayAllItems();
 
 		System.out.println("---------------------------------------");
 		System.out.println("📌 Displaying all low stock items:");

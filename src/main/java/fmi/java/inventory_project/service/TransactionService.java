@@ -5,6 +5,7 @@ import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.model.Transaction;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -13,5 +14,5 @@ public interface TransactionService {
     List<Transaction> getAllTransactions();
     boolean returnItem(Integer transactionId);
     List<Transaction> getOverdueTransactions();
-    boolean updateTransaction(Transaction updatedTransaction);
+    boolean updateTransaction(Integer id, Instant returnDate, boolean returned);
 }

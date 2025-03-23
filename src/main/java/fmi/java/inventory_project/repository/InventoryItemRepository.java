@@ -12,7 +12,7 @@ import java.util.Optional;
 public class InventoryItemRepository {
     private static final Map<Integer, InventoryItem> ITEM_TABLE = new HashMap<>();
 
-    public static void addItem(InventoryItem item) {
+    public void addItem(InventoryItem item) {
         if (item == null) {
             throw new NullPointerException("Item shouldn't be null");
         }
@@ -26,7 +26,7 @@ public class InventoryItemRepository {
         ITEM_TABLE.put(item.getId(), item);
     }
 
-    public static boolean deleteItemById(Integer id) {
+    public boolean deleteItemById(Integer id) {
         if (!ITEM_TABLE.containsKey(id)) {
             return false;
         }
@@ -35,7 +35,7 @@ public class InventoryItemRepository {
         return true;
     }
 
-    public static Optional<InventoryItem> getItemById(Integer id) {
+    public Optional<InventoryItem> getItemById(Integer id) {
         if (!ITEM_TABLE.containsKey(id)) {
             return Optional.empty();
         }
@@ -43,7 +43,16 @@ public class InventoryItemRepository {
         return Optional.of(ITEM_TABLE.get(id));
     }
 
-    public static List<InventoryItem> getAllItems() {
+    public List<InventoryItem> getAllItems() {
         return ITEM_TABLE.values().stream().toList();
+    }
+
+    public boolean updateItem(InventoryItem newItem) {
+        if (ITEM_TABLE.containsKey(newItem.getId())) {
+            ITEM_TABLE.put(newItem.getId(), newItem);
+            return true;
+        }
+
+        return false;
     }
 }

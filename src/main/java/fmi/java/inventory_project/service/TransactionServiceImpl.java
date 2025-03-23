@@ -5,19 +5,23 @@ import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.model.Transaction;
 import fmi.java.inventory_project.model.TransactionType;
 import fmi.java.inventory_project.repository.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
-    private InventoryService inventoryService;
+    private final InventoryService inventoryService;
+    private final TransactionRepository transactionRepository;
 
-    public TransactionServiceImpl(InventoryService inventoryService) {
+    @Autowired
+    public TransactionServiceImpl(InventoryService inventoryService,
+                                  TransactionRepository transactionRepository) {
         this.inventoryService = inventoryService;
+        this.transactionRepository = transactionRepository;
     }
 
     @Override
@@ -31,28 +35,33 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         Instant borrowDate = Instant.now();
-        Transaction newTransaction = new Transaction(member.getId(),
-                item.getId(),
+        Transaction newTransaction = new Transaction(member,
+                item,
                 TransactionType.BORROW,
-                1,
                 borrowDate,
-                borrowDate.plusSeconds(days * 86400L));
-        TransactionRepository.addTransaction(newTransaction);
+                days);
+        transactionRepository.addTransaction(newTransaction);
         item.setQuantity(item.getQuantity() - 1);
-        inventoryService.updateItem(item);
+        inventoryService.updateItem(item.getId(),
+                item.getName(),
+                item.getDescription(),
+                item.getQuantity() - 1,
+                item.getUnitOfMeasurement(),
+                item.getCategory().getName(),
+                item.isBorrowable());
 
         return newTransaction.getId();
     }
 
     @Override
     public List<Transaction> getAllTransactions() {
-        return TransactionRepository.getAllTransactions();
+        return transactionRepository.getAllTransactions();
     }
 
     @Override
     public boolean returnItem(Integer transactionId) {
         Optional<Transaction> transactionOptional =
-                TransactionRepository.getTransactionById(transactionId);
+                transactionRepository.getTransactionById(transactionId);
 
         if (transactionOptional.isEmpty()) {
             return false;
@@ -65,30 +74,38 @@ public class TransactionServiceImpl implements TransactionService {
             return false;
         }
 
-        transaction.setReturned(true);
-        item.setQuantity(item.getQuantity() + 1);
-        updateTransaction(transaction);
-        inventoryService.updateItem(item);
-        return true;
+        updateTransaction(transactionId,
+                transaction.getReturnDate(),
+                true);
+        return inventoryService.updateItem(item.getId(),
+                item.getName(),
+                item.getDescription(),
+                item.getQuantity() - 1,
+                item.getUnitOfMeasurement(),
+                item.getCategory().getName(),
+                item.isBorrowable());
     }
 
     @Override
     public List<Transaction> getOverdueTransactions() {
-        return getAllTransactions()
-                .stream()
-                .filter(transaction -> {
-                    return !transaction.isReturned() && Instant.now().isAfter(transaction.getReturnDate());
-                })
-                .collect(Collectors.toList());
+        return transactionRepository.getOverdueTransactions();
     }
 
     @Override
-    public boolean updateTransaction(Transaction updatedTransaction) {
-        if (!TransactionRepository.deleteTransactionById(updatedTransaction.getId())) {
-            return false;
+    public boolean updateTransaction(Integer id,
+                                     Instant returnDate,
+                                     boolean returned) {
+        Optional<Transaction> existingTransaction = transactionRepository.getTransactionById(id);
+        if (existingTransaction.isPresent()) {
+            Transaction transaction = existingTransaction.get();
+            transaction.setReturned(returned);
+            transaction.setReturnDate(returnDate);
+
+            transactionRepository.updateTransaction(transaction);
+
+            return true;
         }
 
-        TransactionRepository.addTransaction(updatedTransaction);
-        return true;
+        return false;
     }
 }

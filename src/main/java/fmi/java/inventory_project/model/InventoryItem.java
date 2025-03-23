@@ -113,6 +113,15 @@ public class InventoryItem {
         return addedDate;
     }
 
+    public void setName(String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    public void setCategory(ItemCategory category) {
+        this.category = category;
+    }
+
     public void setDescription(String description) {
         validateDescription(description);
         this.description = description;
@@ -123,8 +132,21 @@ public class InventoryItem {
         this.quantity = quantity;
     }
 
+    public void setBorrowable(boolean borrowable) {
+        this.borrowable = borrowable;
+    }
+
     @Override
     public String toString() {
-        return name;
+        return "InventoryItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", quantity=" + quantity +
+                ", unitOfMeasurement='" + unitOfMeasurement + '\'' +
+                ", category='" + category + '\'' +
+                ", borrowable=" + borrowable +
+                ", addedDate=" + addedDate +
+                '}';
     }
 }

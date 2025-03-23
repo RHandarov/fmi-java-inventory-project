@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ItemCategoryRepository {
     private static Map<Integer, ItemCategory> ITEM_CATEGORY_TABLE = new HashMap<>();
 
-    public static void addItemCategory(ItemCategory itemCategory) {
+    public void addItemCategory(ItemCategory itemCategory) {
         if (itemCategory == null) {
             throw new NullPointerException("Item category shouldn't be null");
         }
@@ -27,7 +27,7 @@ public class ItemCategoryRepository {
         ITEM_CATEGORY_TABLE.put(itemCategory.getId(), itemCategory);
     }
 
-    public static boolean deleteItemCategoryById(Integer id) {
+    public boolean deleteItemCategoryById(Integer id) {
         if (!ITEM_CATEGORY_TABLE.containsKey(id)) {
             return false;
         }
@@ -36,7 +36,7 @@ public class ItemCategoryRepository {
         return true;
     }
 
-    public static Optional<ItemCategory> getItemCategoryById(Integer id) {
+    public Optional<ItemCategory> getItemCategoryById(Integer id) {
         if (!ITEM_CATEGORY_TABLE.containsKey(id)) {
             return Optional.empty();
         }
@@ -44,14 +44,14 @@ public class ItemCategoryRepository {
         return Optional.of(ITEM_CATEGORY_TABLE.get(id));
     }
 
-    public static Optional<ItemCategory> getItemCategoryByName(String name) {
+    public Optional<ItemCategory> getItemCategoryByName(String name) {
         return ITEM_CATEGORY_TABLE.values()
                 .stream()
                 .filter(category -> category.getName().equals(name))
                 .findFirst();
     }
 
-    public static List<ItemCategory> getAllItemCategories() {
+    public List<ItemCategory> getAllItemCategories() {
         return ITEM_CATEGORY_TABLE.values().stream().toList();
     }
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ClubMemberRepository {
     private static Map<Integer, ClubMember> CLUB_MEMBER_TABLE = new HashMap<>();
 
-    public static void addClubMember(ClubMember member) {
+    public void addClubMember(ClubMember member) {
         if (member == null) {
             throw new NullPointerException("Club member shouldn't be null");
         }
@@ -26,7 +26,7 @@ public class ClubMemberRepository {
         CLUB_MEMBER_TABLE.put(member.getId(), member);
     }
 
-    public static boolean deleteClubMemberById(Integer id) {
+    public boolean deleteClubMemberById(Integer id) {
         if (!CLUB_MEMBER_TABLE.containsKey(id)) {
             return false;
         }
@@ -35,7 +35,7 @@ public class ClubMemberRepository {
         return true;
     }
 
-    public static Optional<ClubMember> getClubMemberById(Integer id) {
+    public Optional<ClubMember> getClubMemberById(Integer id) {
         if (!CLUB_MEMBER_TABLE.containsKey(id)) {
             return Optional.empty();
         }
@@ -43,7 +43,7 @@ public class ClubMemberRepository {
         return Optional.of(CLUB_MEMBER_TABLE.get(id));
     }
 
-    public static List<ClubMember> getAllClubMembers() {
+    public List<ClubMember> getAllClubMembers() {
         return CLUB_MEMBER_TABLE.values().stream().toList();
     }
 }

@@ -1,6 +1,7 @@
 package fmi.java.inventory_project.repository;
 
 import fmi.java.inventory_project.model.Transaction;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
+@NoArgsConstructor
 public class TransactionRepository {
     private static Map<Integer, Transaction> TRANSACTION_TABLE = new HashMap<>();
 

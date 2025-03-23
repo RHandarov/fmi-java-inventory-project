@@ -5,6 +5,7 @@ import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.model.Transaction;
 import fmi.java.inventory_project.model.TransactionType;
 import fmi.java.inventory_project.repository.TransactionRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
-    private final InventoryService inventoryService;
-    private final TransactionRepository transactionRepository;
-
-    @Autowired
-    public TransactionServiceImpl(InventoryService inventoryService,
-                                  TransactionRepository transactionRepository) {
-        this.inventoryService = inventoryService;
-        this.transactionRepository = transactionRepository;
-    }
+    private InventoryService inventoryService;
+    private TransactionRepository transactionRepository;
 
     @Override
     public Integer borrowItem(ClubMember member, InventoryItem item, int days) {

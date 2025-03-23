@@ -5,22 +5,17 @@ import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.model.Transaction;
 import fmi.java.inventory_project.service.InventoryService;
 import fmi.java.inventory_project.service.TransactionService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
 @Controller
+@AllArgsConstructor
 public class TransactionController {
-    private final TransactionService transactionService;
-    private final InventoryService inventoryService;
-
-    @Autowired
-    public TransactionController(TransactionService transactionService,
-                                 InventoryService inventoryService) {
-        this.transactionService = transactionService;
-        this.inventoryService = inventoryService;
-    }
+    private TransactionService transactionService;
+    private InventoryService inventoryService;
 
     public void displayAllTransactions() {
         List<Transaction> transactions = transactionService.getAllTransactions();

@@ -2,6 +2,7 @@ package fmi.java.inventory_project.controller;
 
 import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.service.InventoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -9,13 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@AllArgsConstructor
 public class InventoryController {
-    private final InventoryService inventoryService;
-
-    @Autowired
-    public InventoryController(InventoryService inventoryService) {
-        this.inventoryService = inventoryService;
-    }
+    private InventoryService inventoryService;
 
     public void displayAllItems() {
         List<InventoryItem> items = inventoryService.getAllItems();

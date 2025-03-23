@@ -1,6 +1,7 @@
 package fmi.java.inventory_project.repository;
 
 import fmi.java.inventory_project.model.ClubMember;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
+@NoArgsConstructor
 public class ClubMemberRepository {
     private static Map<Integer, ClubMember> CLUB_MEMBER_TABLE = new HashMap<>();
 

@@ -4,6 +4,7 @@ import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.model.ItemCategory;
 import fmi.java.inventory_project.repository.InventoryItemRepository;
 import fmi.java.inventory_project.repository.ItemCategoryRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class InventoryServiceImpl implements InventoryService {
-    @Autowired
     private InventoryItemRepository itemRepository;
-
-    @Autowired
     private ItemCategoryRepository itemCategoryRepository;
 
     @Override

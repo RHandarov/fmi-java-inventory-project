@@ -3,6 +3,8 @@ package fmi.java.inventory_project;
 import fmi.java.inventory_project.controller.InventoryController;
 import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.service.InventoryService;
+import fmi.java.inventory_project.service.logger.ConsoleLogger;
+import fmi.java.inventory_project.service.logger.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +20,9 @@ public class InventoryProjectApplication implements CommandLineRunner {
 	@Autowired
 	private InventoryController inventoryController;
 
+	@Autowired
+	private Logger logger;
+
 	public static void main(String[] args) {
 		SpringApplication.run(InventoryProjectApplication.class, args);
 	}
@@ -25,6 +30,9 @@ public class InventoryProjectApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("🚀 Application started successfully!");
+		logger.info("🚀 Application started successfully!");
+		logger.debug("Some debugging message");
+		logger.error("Some error message");
 
 		inventoryService.addItem("RC Car", "High-speed remote control car", 5, "pcs", "Vehicles", true);
 		inventoryService.addItem("Battery Pack", "Rechargeable battery", 10, "pcs", "Accessories", true);

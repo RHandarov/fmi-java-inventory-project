@@ -31,6 +31,9 @@ public class InventoryProjectApplication implements CommandLineRunner {
 	@Value("${config.inventory.low-stock-threshold:10}")
 	private int lowStockThreshold;
 
+	@Value("${config.transaction.reminder-safety-window-days:3}")
+	private int safeDaysInterval;
+
 	public static void main(String[] args) {
 		SpringApplication.run(InventoryProjectApplication.class, args);
 	}
@@ -80,8 +83,8 @@ public class InventoryProjectApplication implements CommandLineRunner {
 
 		System.out.println("---------------------------------------");
 		System.out.println("📌 Displaying all soon to be overdue items:");
-		logger.info("Displaying all soon to be overdue with remaining days less than " + 10);
-		transactionController.displaySoonToBeOverdueTransactions(2);
+		logger.info("Displaying all soon to be overdue with remaining days less than " + safeDaysInterval);
+		transactionController.displaySoonToBeOverdueTransactions(safeDaysInterval);
 		System.out.println("---------------------------------------");
 	}
 }

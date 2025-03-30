@@ -6,6 +6,7 @@ import fmi.java.inventory_project.service.InventoryService;
 import fmi.java.inventory_project.service.logger.ConsoleLogger;
 import fmi.java.inventory_project.service.logger.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +23,9 @@ public class InventoryProjectApplication implements CommandLineRunner {
 
 	@Autowired
 	private Logger logger;
+
+	@Value("${config.inventory.low-stock-threshold:10}")
+	private int lowStockThreshold;
 
 	public static void main(String[] args) {
 		SpringApplication.run(InventoryProjectApplication.class, args);
@@ -65,9 +69,8 @@ public class InventoryProjectApplication implements CommandLineRunner {
 
 		System.out.println("---------------------------------------");
 		System.out.println("📌 Displaying all low stock items:");
-		int threshold = 10;
-		logger.info("Displaying all low stock items with threshold " + threshold);
-		List<InventoryItem> lowCost = inventoryController.getLowStockItems(threshold);
+		logger.info("Displaying all low stock items with threshold " + lowStockThreshold);
+		List<InventoryItem> lowCost = inventoryController.getLowStockItems(lowStockThreshold);
 		lowCost.stream().forEach(System.out::println);
 		System.out.println("---------------------------------------");
 	}

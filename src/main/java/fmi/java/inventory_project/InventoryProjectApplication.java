@@ -1,6 +1,7 @@
 package fmi.java.inventory_project;
 
 import fmi.java.inventory_project.controller.InventoryController;
+import fmi.java.inventory_project.controller.TransactionController;
 import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.service.InventoryService;
 import fmi.java.inventory_project.service.logger.ConsoleLogger;
@@ -20,6 +21,9 @@ public class InventoryProjectApplication implements CommandLineRunner {
 
 	@Autowired
 	private InventoryController inventoryController;
+
+	@Autowired
+	private TransactionController transactionController;
 
 	@Autowired
 	private Logger logger;
@@ -72,6 +76,12 @@ public class InventoryProjectApplication implements CommandLineRunner {
 		logger.info("Displaying all low stock items with threshold " + lowStockThreshold);
 		List<InventoryItem> lowCost = inventoryController.getLowStockItems(lowStockThreshold);
 		lowCost.stream().forEach(System.out::println);
+		System.out.println("---------------------------------------");
+
+		System.out.println("---------------------------------------");
+		System.out.println("📌 Displaying all soon to be overdue items:");
+		logger.info("Displaying all soon to be overdue with remaining days less than " + 10);
+		transactionController.displaySoonToBeOverdueTransactions(2);
 		System.out.println("---------------------------------------");
 	}
 }

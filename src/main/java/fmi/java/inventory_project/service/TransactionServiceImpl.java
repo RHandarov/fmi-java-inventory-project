@@ -9,9 +9,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -102,5 +105,26 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         return false;
+    }
+
+    @Override
+    public List<Transaction> getSoonToBeOverdueTransactions(int safeWindowInDays) {
+        if (safeWindowInDays < 1) {
+            return new ArrayList<>();
+        }
+
+        return getAllTransactions().stream()
+                .filter(transaction -> {
+                    if (transaction.isReturned()) {
+                        return false;
+                    }
+
+                    if (transaction.getReturnDate().isBefore(Instant.now())) {
+                        return false;
+                    }
+
+                    return Duration.between(Instant.now(), transaction.getReturnDate()).toDays() <= safeWindowInDays;
+                })
+                .collect(Collectors.toList());
     }
 }

@@ -15,4 +15,5 @@ public interface TransactionService {
     boolean returnItem(Integer transactionId);
     List<Transaction> getOverdueTransactions();
     boolean updateTransaction(Integer id, Instant returnDate, boolean returned);
+    List<Transaction> getSoonToBeOverdueTransactions(int safeWindowInDays);
 }

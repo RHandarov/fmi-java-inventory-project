@@ -50,4 +50,12 @@ public class TransactionController {
 
         System.out.println(message);
     }
+
+    public void displaySoonToBeOverdueTransactions(int safeWindowInDays) {
+        List<Transaction> transactions =
+                transactionService.getSoonToBeOverdueTransactions(safeWindowInDays);
+
+        System.out.println("Soon to be overdue transactions count " + transactions.size());
+        transactions.forEach(transaction -> System.out.println(transaction.getId()));
+    }
 }

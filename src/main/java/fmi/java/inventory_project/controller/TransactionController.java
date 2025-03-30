@@ -55,6 +55,11 @@ public class TransactionController {
         List<Transaction> transactions =
                 transactionService.getSoonToBeOverdueTransactions(safeWindowInDays);
 
+        if (transactions.isEmpty()) {
+            System.out.println("No upcoming due transactions found.");
+            return;
+        }
+
         System.out.println("Soon to be overdue transactions count " + transactions.size());
         transactions.forEach(transaction -> System.out.println(transaction.getId()));
     }

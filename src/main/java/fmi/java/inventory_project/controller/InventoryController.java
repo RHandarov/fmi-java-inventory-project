@@ -1,9 +1,11 @@
 package fmi.java.inventory_project.controller;
 
+import fmi.java.inventory_project.dto.InventoryItemDTO;
 import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.service.InventoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,15 +39,19 @@ public class InventoryController {
         return ResponseEntity.ofNullable(lowStock);
     }
 
-    public void addItem(String name, String description, int quantity, String unit, String category, boolean borrowable) {
+    @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public void addItem(@RequestBody InventoryItemDTO inventoryItemDTO) {
         try {
-            inventoryService.addItem(name, description, quantity, unit, category, borrowable);
+            inventoryService.addItem(inventoryItemDTO.getName(),
+                    inventoryItemDTO.getDescription(),
+                    inventoryItemDTO.getQuantity(),
+                    inventoryItemDTO.getUnitOfMeasurement(),
+                    inventoryItemDTO.getCategory(),
+                    inventoryItemDTO.isBorrowable());
         } catch (Exception e) {
-            System.out.println("Failed to add item: " + e.getMessage());
-            return;
+            e.printStackTrace();
         }
-
-        System.out.println("Item has been added successfully");
     }
 
     public void updateItem(Integer id, String name, String description, int quantity, String unit, String category, boolean borrowable) {

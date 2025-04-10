@@ -7,7 +7,6 @@ import fmi.java.inventory_project.model.ItemCategory;
 import fmi.java.inventory_project.repository.InventoryItemRepository;
 import fmi.java.inventory_project.repository.ItemCategoryRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

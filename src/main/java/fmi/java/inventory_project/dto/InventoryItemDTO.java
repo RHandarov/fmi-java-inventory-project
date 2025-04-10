@@ -1,6 +1,5 @@
 package fmi.java.inventory_project.dto;
 
-import fmi.java.inventory_project.model.ItemCategory;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

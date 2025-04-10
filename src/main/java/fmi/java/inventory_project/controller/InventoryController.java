@@ -1,13 +1,10 @@
 package fmi.java.inventory_project.controller;
 
 import fmi.java.inventory_project.dto.InventoryItemDTO;
-import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.service.InventoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/items")
 @AllArgsConstructor
 public class InventoryController {
-    private InventoryService inventoryService;
+    private final InventoryService inventoryService;
 
     @GetMapping
     public ResponseEntity<List<InventoryItemDTO>> displayAllItems() {

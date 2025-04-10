@@ -1,7 +1,6 @@
 package fmi.java.inventory_project.service;
 
 import fmi.java.inventory_project.dto.InventoryItemDTO;
-import fmi.java.inventory_project.model.InventoryItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

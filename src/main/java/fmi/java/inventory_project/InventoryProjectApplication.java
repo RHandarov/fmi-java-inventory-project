@@ -3,7 +3,6 @@ package fmi.java.inventory_project;
 import fmi.java.inventory_project.controller.InventoryController;
 import fmi.java.inventory_project.controller.TransactionController;
 import fmi.java.inventory_project.dto.InventoryItemDTO;
-import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.service.InventoryService;
 import fmi.java.inventory_project.service.logger.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

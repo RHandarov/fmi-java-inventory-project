@@ -1,5 +1,7 @@
 package fmi.java.inventory_project.service;
 
+import fmi.java.inventory_project.dto.InventoryItemDTO;
+import fmi.java.inventory_project.mapper.InventoryItemMapper;
 import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.model.ItemCategory;
 import fmi.java.inventory_project.repository.InventoryItemRepository;
@@ -15,8 +17,9 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class InventoryServiceImpl implements InventoryService {
-    private InventoryItemRepository itemRepository;
-    private ItemCategoryRepository itemCategoryRepository;
+    private final InventoryItemRepository itemRepository;
+    private final ItemCategoryRepository itemCategoryRepository;
+    private final InventoryItemMapper inventoryItemMapper;
 
     @Override
     public List<InventoryItem> getAllItems() {
@@ -24,7 +27,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public void addItem(String name, String description, int quantity, String unit, String category, boolean borrowable) {
+    public InventoryItemDTO addItem(String name, String description, int quantity, String unit, String category, boolean borrowable) {
         ItemCategory itemCategory = itemCategoryRepository
                 .getItemCategoryByName(category)
                 .orElseGet(() -> {
@@ -32,13 +35,17 @@ public class InventoryServiceImpl implements InventoryService {
                     itemCategoryRepository.addItemCategory(newCategory);
                     return newCategory;
                 });
-        itemRepository.addItem(new InventoryItem(name,
+
+        InventoryItem newItem = new InventoryItem(name,
                 description,
                 quantity,
                 "",
                 unit,
                 itemCategory,
-                borrowable));
+                borrowable);
+
+        itemRepository.addItem(newItem);
+        return inventoryItemMapper.toDTO(newItem);
     }
 
     @Override

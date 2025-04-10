@@ -40,17 +40,17 @@ public class InventoryController {
     }
 
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public void addItem(@RequestBody InventoryItemDTO inventoryItemDTO) {
+    public ResponseEntity<InventoryItemDTO> addItem(@RequestBody InventoryItemDTO inventoryItemDTO) {
         try {
-            inventoryService.addItem(inventoryItemDTO.getName(),
-                    inventoryItemDTO.getDescription(),
-                    inventoryItemDTO.getQuantity(),
-                    inventoryItemDTO.getUnitOfMeasurement(),
-                    inventoryItemDTO.getCategory(),
-                    inventoryItemDTO.isBorrowable());
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(inventoryService.addItem(inventoryItemDTO.getName(),
+                            inventoryItemDTO.getDescription(),
+                            inventoryItemDTO.getQuantity(),
+                            inventoryItemDTO.getUnitOfMeasurement(),
+                            inventoryItemDTO.getCategory(),
+                            inventoryItemDTO.isBorrowable()));
         } catch (Exception e) {
-            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 

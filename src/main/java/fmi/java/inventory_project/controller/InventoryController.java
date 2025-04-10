@@ -6,10 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,12 +56,13 @@ public class InventoryController {
         }
     }
 
-    public InventoryItem getItemById(Integer itemId) {
-        Optional<InventoryItem> itemOptional = inventoryService.getItemById(itemId);
-        if (itemOptional.isEmpty()) {
-            throw new IllegalArgumentException("Item with id " + itemId + " doesn't exists");
+    @GetMapping("/{id}")
+    public ResponseEntity<InventoryItem> getItemById(@PathVariable Integer id) {
+        Optional<InventoryItem> item = inventoryService.getItemById(id);
+        if (item.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
 
-        return itemOptional.get();
+        return ResponseEntity.of(item);
     }
 }

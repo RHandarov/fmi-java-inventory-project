@@ -4,22 +4,30 @@ import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.service.InventoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
+@RequestMapping("/items")
 @AllArgsConstructor
 public class InventoryController {
     private InventoryService inventoryService;
 
-    public void displayAllItems() {
+    @GetMapping({"", "/"})
+    public ResponseEntity<List<InventoryItem>> displayAllItems() {
         List<InventoryItem> items = inventoryService.getAllItems();
         if (items.isEmpty()) {
-            System.out.println("No inventory items available.");
+            return ResponseEntity.noContent().build();
+//            System.out.println("No inventory items available.");
         } else {
-            items.forEach(item -> System.out.println("Item: " + item.getName() + ", Quantity: " + item.getQuantity()));
+            return ResponseEntity.ofNullable(items);
+//            items.forEach(item -> System.out.println("Item: " + item.getName() + ", Quantity: " + item.getQuantity()));
         }
     }
 

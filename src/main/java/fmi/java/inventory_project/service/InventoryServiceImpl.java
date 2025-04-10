@@ -22,8 +22,12 @@ public class InventoryServiceImpl implements InventoryService {
     private final InventoryItemMapper inventoryItemMapper;
 
     @Override
-    public List<InventoryItem> getAllItems() {
-        return itemRepository.getAllItems();
+    public List<InventoryItemDTO> getAllItems() {
+        return itemRepository
+                .getAllItems()
+                .stream()
+                .map(inventoryItemMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -49,8 +53,10 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Optional<InventoryItem> getItemById(Integer id) {
-        return itemRepository.getItemById(id);
+    public Optional<InventoryItemDTO> getItemById(Integer id) {
+        return itemRepository
+                .getItemById(id)
+                .map(inventoryItemMapper::toDTO);
     }
 
     @Override
@@ -59,22 +65,12 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public List<InventoryItem> getLowStockItems(int threshold) {
+    public List<InventoryItemDTO> getLowStockItems(int threshold) {
         return getAllItems()
                 .stream()
                 .filter(item -> item.getQuantity() < threshold)
                 .collect(Collectors.toList());
     }
-
-//    @Override
-//    public boolean updateItem(InventoryItem updatedItem) {
-//        if (!InventoryItemRepository.deleteItemById(updatedItem.getId())) {
-//            return false;
-//        }
-//
-//        InventoryItemRepository.addItem(updatedItem);
-//        return true;
-//    }
 
     @Override
     public boolean updateItem(Integer id, String name, String description, int quantity, String unit, String category, boolean borrowable) {

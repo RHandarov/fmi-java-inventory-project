@@ -9,10 +9,10 @@ import java.util.Optional;
 
 @Service
 public interface InventoryService {
-    List<InventoryItem> getAllItems();
+    List<InventoryItemDTO> getAllItems();
     InventoryItemDTO addItem(String name, String description, int quantity, String unit, String category, boolean borrowable);
-    Optional<InventoryItem> getItemById(Integer id);
+    Optional<InventoryItemDTO> getItemById(Integer id);
     boolean deleteItemById(Integer id);
-    List<InventoryItem> getLowStockItems(int threshold);
+    List<InventoryItemDTO> getLowStockItems(int threshold);
     boolean updateItem(Integer id, String name, String description, int quantity, String unit, String category, boolean borrowable);
 }

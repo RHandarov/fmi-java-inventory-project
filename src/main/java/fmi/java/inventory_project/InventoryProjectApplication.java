@@ -2,6 +2,7 @@ package fmi.java.inventory_project;
 
 import fmi.java.inventory_project.controller.InventoryController;
 import fmi.java.inventory_project.controller.TransactionController;
+import fmi.java.inventory_project.dto.InventoryItemDTO;
 import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.service.InventoryService;
 import fmi.java.inventory_project.service.logger.Logger;
@@ -76,7 +77,7 @@ public class InventoryProjectApplication implements CommandLineRunner {
 		System.out.println("---------------------------------------");
 		System.out.println("📌 Displaying all low stock items:");
 		logger.info("Displaying all low stock items with threshold " + lowStockThreshold);
-		List<InventoryItem> lowCost = inventoryController.getLowStockItems(lowStockThreshold).getBody();
+		List<InventoryItemDTO> lowCost = inventoryController.getLowStockItems(lowStockThreshold).getBody();
 		lowCost.stream().forEach(System.out::println);
 		System.out.println("---------------------------------------");
 

@@ -20,8 +20,8 @@ public class InventoryController {
     private InventoryService inventoryService;
 
     @GetMapping
-    public ResponseEntity<List<InventoryItem>> displayAllItems() {
-        List<InventoryItem> items = inventoryService.getAllItems();
+    public ResponseEntity<List<InventoryItemDTO>> displayAllItems() {
+        List<InventoryItemDTO> items = inventoryService.getAllItems();
         if (items.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {
@@ -30,8 +30,8 @@ public class InventoryController {
     }
 
     @GetMapping("/low-stock/{threshold}")
-    public ResponseEntity<List<InventoryItem>> getLowStockItems(@PathVariable int threshold) {
-        List<InventoryItem> lowStock = inventoryService.getLowStockItems(threshold);
+    public ResponseEntity<List<InventoryItemDTO>> getLowStockItems(@PathVariable int threshold) {
+        List<InventoryItemDTO> lowStock = inventoryService.getLowStockItems(threshold);
         if (lowStock.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -63,8 +63,8 @@ public class InventoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InventoryItem> getItemById(@PathVariable Integer id) {
-        Optional<InventoryItem> item = inventoryService.getItemById(id);
+    public ResponseEntity<InventoryItemDTO> getItemById(@PathVariable Integer id) {
+        Optional<InventoryItemDTO> item = inventoryService.getItemById(id);
         if (item.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

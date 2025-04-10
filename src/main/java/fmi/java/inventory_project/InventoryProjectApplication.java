@@ -76,7 +76,7 @@ public class InventoryProjectApplication implements CommandLineRunner {
 		System.out.println("---------------------------------------");
 		System.out.println("📌 Displaying all low stock items:");
 		logger.info("Displaying all low stock items with threshold " + lowStockThreshold);
-		List<InventoryItem> lowCost = inventoryController.getLowStockItems(lowStockThreshold);
+		List<InventoryItem> lowCost = inventoryController.getLowStockItems(lowStockThreshold).getBody();
 		lowCost.stream().forEach(System.out::println);
 		System.out.println("---------------------------------------");
 

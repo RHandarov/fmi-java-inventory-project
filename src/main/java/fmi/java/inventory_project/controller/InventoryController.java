@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,20 +20,24 @@ import java.util.Optional;
 public class InventoryController {
     private InventoryService inventoryService;
 
-    @GetMapping({"", "/"})
+    @GetMapping
     public ResponseEntity<List<InventoryItem>> displayAllItems() {
         List<InventoryItem> items = inventoryService.getAllItems();
         if (items.isEmpty()) {
             return ResponseEntity.noContent().build();
-//            System.out.println("No inventory items available.");
         } else {
             return ResponseEntity.ofNullable(items);
-//            items.forEach(item -> System.out.println("Item: " + item.getName() + ", Quantity: " + item.getQuantity()));
         }
     }
 
-    public List<InventoryItem> getLowStockItems(int threshold) {
-        return inventoryService.getLowStockItems(threshold);
+    @GetMapping("/low-stock/{threshold}")
+    public ResponseEntity<List<InventoryItem>> getLowStockItems(@PathVariable int threshold) {
+        List<InventoryItem> lowStock = inventoryService.getLowStockItems(threshold);
+        if (lowStock.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ofNullable(lowStock);
     }
 
     public void addItem(String name, String description, int quantity, String unit, String category, boolean borrowable) {

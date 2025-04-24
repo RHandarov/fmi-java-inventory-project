@@ -6,7 +6,6 @@ import fmi.java.inventory_project.model.Transaction;
 import fmi.java.inventory_project.service.InventoryService;
 import fmi.java.inventory_project.service.TransactionService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -14,8 +13,8 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 public class TransactionController {
-    private TransactionService transactionService;
-    private InventoryService inventoryService;
+    private final TransactionService transactionService;
+    private final InventoryService inventoryService;
 
     public void displayAllTransactions() {
         List<Transaction> transactions = transactionService.getAllTransactions();

@@ -1,12 +1,12 @@
 package fmi.java.inventory_project.service;
 
+import fmi.java.inventory_project.dto.InventoryItemDTO;
 import fmi.java.inventory_project.model.ClubMember;
 import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.model.Transaction;
 import fmi.java.inventory_project.model.TransactionType;
 import fmi.java.inventory_project.repository.TransactionRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
-    private InventoryService inventoryService;
-    private TransactionRepository transactionRepository;
+    private final InventoryService inventoryService;
+    private final TransactionRepository transactionRepository;
 
     @Override
     public Integer borrowItem(ClubMember member, InventoryItem item, int days) {
@@ -45,7 +45,7 @@ public class TransactionServiceImpl implements TransactionService {
                 item.getDescription(),
                 item.getQuantity() - 1,
                 item.getUnitOfMeasurement(),
-                item.getCategory().getName(),
+                item.getCategory(),
                 item.isBorrowable());
 
         return newTransaction.getId();
@@ -66,7 +66,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         Transaction transaction = transactionOptional.get();
-        InventoryItem item = inventoryService.getItemById(transaction.getId()).get();
+        InventoryItemDTO item = inventoryService.getItemById(transaction.getId()).get();
 
         if (!item.isBorrowable()) {
             return false;
@@ -80,7 +80,7 @@ public class TransactionServiceImpl implements TransactionService {
                 item.getDescription(),
                 item.getQuantity() - 1,
                 item.getUnitOfMeasurement(),
-                item.getCategory().getName(),
+                item.getCategory(),
                 item.isBorrowable());
     }
 

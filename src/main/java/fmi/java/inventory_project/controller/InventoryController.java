@@ -1,41 +1,54 @@
 package fmi.java.inventory_project.controller;
 
-import fmi.java.inventory_project.model.InventoryItem;
+import fmi.java.inventory_project.dto.InventoryItemDTO;
 import fmi.java.inventory_project.service.InventoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
+@RequestMapping("/items")
 @AllArgsConstructor
 public class InventoryController {
-    private InventoryService inventoryService;
+    private final InventoryService inventoryService;
 
-    public void displayAllItems() {
-        List<InventoryItem> items = inventoryService.getAllItems();
+    @GetMapping
+    public ResponseEntity<List<InventoryItemDTO>> displayAllItems() {
+        List<InventoryItemDTO> items = inventoryService.getAllItems();
         if (items.isEmpty()) {
-            System.out.println("No inventory items available.");
+            return ResponseEntity.noContent().build();
         } else {
-            items.forEach(item -> System.out.println("Item: " + item.getName() + ", Quantity: " + item.getQuantity()));
+            return ResponseEntity.ofNullable(items);
         }
     }
 
-    public List<InventoryItem> getLowStockItems(int threshold) {
-        return inventoryService.getLowStockItems(threshold);
+    @GetMapping("/low-stock/{threshold}")
+    public ResponseEntity<List<InventoryItemDTO>> getLowStockItems(@PathVariable int threshold) {
+        List<InventoryItemDTO> lowStock = inventoryService.getLowStockItems(threshold);
+        if (lowStock.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ofNullable(lowStock);
     }
 
-    public void addItem(String name, String description, int quantity, String unit, String category, boolean borrowable) {
+    @PostMapping
+    public ResponseEntity<InventoryItemDTO> addItem(@RequestBody InventoryItemDTO inventoryItemDTO) {
         try {
-            inventoryService.addItem(name, description, quantity, unit, category, borrowable);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(inventoryService.addItem(inventoryItemDTO.getName(),
+                            inventoryItemDTO.getDescription(),
+                            inventoryItemDTO.getQuantity(),
+                            inventoryItemDTO.getUnitOfMeasurement(),
+                            inventoryItemDTO.getCategory(),
+                            inventoryItemDTO.isBorrowable()));
         } catch (Exception e) {
-            System.out.println("Failed to add item: " + e.getMessage());
-            return;
+            return ResponseEntity.internalServerError().build();
         }
-
-        System.out.println("Item has been added successfully");
     }
 
     public void updateItem(Integer id, String name, String description, int quantity, String unit, String category, boolean borrowable) {
@@ -46,12 +59,13 @@ public class InventoryController {
         }
     }
 
-    public InventoryItem getItemById(Integer itemId) {
-        Optional<InventoryItem> itemOptional = inventoryService.getItemById(itemId);
-        if (itemOptional.isEmpty()) {
-            throw new IllegalArgumentException("Item with id " + itemId + " doesn't exists");
+    @GetMapping("/{id}")
+    public ResponseEntity<InventoryItemDTO> getItemById(@PathVariable Integer id) {
+        Optional<InventoryItemDTO> item = inventoryService.getItemById(id);
+        if (item.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
 
-        return itemOptional.get();
+        return ResponseEntity.of(item);
     }
 }

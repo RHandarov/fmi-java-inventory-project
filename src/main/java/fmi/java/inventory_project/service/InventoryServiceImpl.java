@@ -1,11 +1,12 @@
 package fmi.java.inventory_project.service;
 
+import fmi.java.inventory_project.dto.InventoryItemDTO;
+import fmi.java.inventory_project.mapper.InventoryItemMapper;
 import fmi.java.inventory_project.model.InventoryItem;
 import fmi.java.inventory_project.model.ItemCategory;
 import fmi.java.inventory_project.repository.InventoryItemRepository;
 import fmi.java.inventory_project.repository.ItemCategoryRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,16 +16,21 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class InventoryServiceImpl implements InventoryService {
-    private InventoryItemRepository itemRepository;
-    private ItemCategoryRepository itemCategoryRepository;
+    private final InventoryItemRepository itemRepository;
+    private final ItemCategoryRepository itemCategoryRepository;
+    private final InventoryItemMapper inventoryItemMapper;
 
     @Override
-    public List<InventoryItem> getAllItems() {
-        return itemRepository.getAllItems();
+    public List<InventoryItemDTO> getAllItems() {
+        return itemRepository
+                .getAllItems()
+                .stream()
+                .map(inventoryItemMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void addItem(String name, String description, int quantity, String unit, String category, boolean borrowable) {
+    public InventoryItemDTO addItem(String name, String description, int quantity, String unit, String category, boolean borrowable) {
         ItemCategory itemCategory = itemCategoryRepository
                 .getItemCategoryByName(category)
                 .orElseGet(() -> {
@@ -32,18 +38,24 @@ public class InventoryServiceImpl implements InventoryService {
                     itemCategoryRepository.addItemCategory(newCategory);
                     return newCategory;
                 });
-        itemRepository.addItem(new InventoryItem(name,
+
+        InventoryItem newItem = new InventoryItem(name,
                 description,
                 quantity,
                 "",
                 unit,
                 itemCategory,
-                borrowable));
+                borrowable);
+
+        itemRepository.addItem(newItem);
+        return inventoryItemMapper.toDTO(newItem);
     }
 
     @Override
-    public Optional<InventoryItem> getItemById(Integer id) {
-        return itemRepository.getItemById(id);
+    public Optional<InventoryItemDTO> getItemById(Integer id) {
+        return itemRepository
+                .getItemById(id)
+                .map(inventoryItemMapper::toDTO);
     }
 
     @Override
@@ -52,22 +64,12 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public List<InventoryItem> getLowStockItems(int threshold) {
+    public List<InventoryItemDTO> getLowStockItems(int threshold) {
         return getAllItems()
                 .stream()
                 .filter(item -> item.getQuantity() < threshold)
                 .collect(Collectors.toList());
     }
-
-//    @Override
-//    public boolean updateItem(InventoryItem updatedItem) {
-//        if (!InventoryItemRepository.deleteItemById(updatedItem.getId())) {
-//            return false;
-//        }
-//
-//        InventoryItemRepository.addItem(updatedItem);
-//        return true;
-//    }
 
     @Override
     public boolean updateItem(Integer id, String name, String description, int quantity, String unit, String category, boolean borrowable) {

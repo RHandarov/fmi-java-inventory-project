@@ -13,7 +13,7 @@ public class InventoryItemMapper {
                 inventoryItem.getQuantity(),
                 inventoryItem.getSerialNumber(),
                 inventoryItem.getUnitOfMeasurement(),
-                inventoryItem.getCategory().getName(),
+                inventoryItem.getCategory(),
                 inventoryItem.isBorrowable(),
                 inventoryItem.getAddedDate());
     }

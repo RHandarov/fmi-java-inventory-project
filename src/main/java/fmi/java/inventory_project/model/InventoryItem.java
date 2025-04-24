@@ -1,8 +1,16 @@
 package fmi.java.inventory_project.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.NoArgsConstructor;
+
 import java.time.Instant;
 import java.util.Arrays;
 
+@Entity
+@NoArgsConstructor
 public class InventoryItem {
     private static final int MAX_NAME_LENGTH = 100;
     private static final int MAX_DESCRIPTION_LENGTH = 255;
@@ -42,13 +50,16 @@ public class InventoryItem {
         }
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String description;
     private int quantity;
     private String serialNumber;
     private String unitOfMeasurement;
-    private ItemCategory category;
+//    private ItemCategory category;
+    private String category;
     private boolean borrowable;
     private Instant addedDate;
 
@@ -72,7 +83,7 @@ public class InventoryItem {
         this.quantity = quantity;
         this.serialNumber = serialNumber;
         this.unitOfMeasurement = unitOfMeasurement;
-        category = itemCategory;
+        category = itemCategory.getName();
         this.borrowable = borrowable;
         addedDate = Instant.now();
     }
@@ -101,7 +112,7 @@ public class InventoryItem {
         return unitOfMeasurement;
     }
 
-    public ItemCategory getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -119,7 +130,7 @@ public class InventoryItem {
     }
 
     public void setCategory(ItemCategory category) {
-        this.category = category;
+        this.category = category.getName();
     }
 
     public void setDescription(String description) {

@@ -45,7 +45,7 @@ public class TransactionServiceImpl implements TransactionService {
                 item.getDescription(),
                 item.getQuantity() - 1,
                 item.getUnitOfMeasurement(),
-                item.getCategory().getName(),
+                item.getCategory(),
                 item.isBorrowable());
 
         return newTransaction.getId();
